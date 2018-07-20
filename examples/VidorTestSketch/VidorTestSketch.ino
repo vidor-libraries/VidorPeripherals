@@ -37,7 +37,7 @@ void setup() {
   Serial.print("Pin A0 is ");
   Serial.println(digitalRead(A0) == LOW ? "LOW" : "HIGH");
 
-  FPGA.digitalWrite(133, LOW);
+  FPGA.digitalWrite(33, LOW);
   Serial.print("Pin A0 is ");
   Serial.println(digitalRead(A0) == LOW ? "LOW" : "HIGH");
 
