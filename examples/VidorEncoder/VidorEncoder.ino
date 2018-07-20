@@ -28,9 +28,6 @@ void setup() {
     Serial.println("Initialization failed!");
     while (1) {}
   }
-
-  Serial.println(FPGA.version(), HEX);
-
 }
 
 void loop() {
