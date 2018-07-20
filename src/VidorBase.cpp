@@ -1,4 +1,4 @@
-#include "VidorBase.h"
+#include "VidorPeripherals.h"
 
 VidorBase FPGA;
 
@@ -26,7 +26,9 @@ void VidorBase::onInterrupt() {
 	// TODO: do be implemented
 }
 
+#if 0
 // This strong implementation allows booting the FPGA without external intervention
 extern "C" void startFPGA() {
 	FPGA.begin();
 }
+#endif
