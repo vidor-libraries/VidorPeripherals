@@ -1,3 +1,22 @@
+/*
+  This file is part of the VidorPeripherals/VidorGraphics library.
+  Copyright (c) 2018 Arduino SA. All rights reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 #include "VidorUtils.h"
 #include "defines.h"
 
@@ -187,39 +206,37 @@ i2c_apply:
 
 	/* SPI functions */
 	static void enableSPI(int index, int mosi, int miso, int sck, int cs) {
-		if (mosi == -1)
-			goto set_miso;
-		if (mosi <= 14) {
+		if (mosi == -1) {
+			VidorIO::pinMode(FPGA_NINA_MOSI, 4);
+		} else if (mosi <= 14) {
 			mosi = mosi - 0;
 			pinModeExtended(mosi + 140, 5);
 		} else {
 			mosi = mosi - A0;
 			pinModeExtended(mosi + 133, 5);
 		}
-set_miso:
-		if (miso == -1)
-			goto set_sck;
-		if (miso <= 14) {
+		if (miso == -1) {
+			VidorIO::pinMode(FPGA_NINA_MISO, INPUT);
+		} else if (miso <= 14) {
 			miso = miso - 0 ;
 			pinModeExtended(miso + 140, INPUT);
 		} else {
 			miso = miso - A0;
 			pinModeExtended(miso + 133, INPUT);
 		}
-set_sck:
-		if (sck == -1)
-			goto set_cs;
-		if (sck <= 14) {
+		if (sck == -1) {
+			VidorIO::pinMode(FPGA_NINA_SCK, 4);
+		} else if (sck <= 14) {
 			sck = sck - 0 ;
 			pinModeExtended(sck + 140, 5);
 		} else {
 			sck = sck - A0;
 			pinModeExtended(sck + 133, 5);
 		}
-set_cs:
-		if (cs == -1)
+
+		if (cs == -1) {
 			goto enable_spi;
-		if (cs <= 14) {
+		} else if (cs <= 14) {
 			cs = cs - 0;
 			pinModeExtended(cs + 140, 5);
 		} else {
@@ -228,7 +245,7 @@ set_cs:
 		}
 
 enable_spi:
-		uint32_t rpc[1];
+		uint32_t rpc[2];
 		rpc[0] = MB_DEV_SPI | ((index & 0x0F)<<20) | 0x01;
 		rpc[1] = index;
 		mbCmdSend(rpc, 2);
@@ -243,7 +260,11 @@ enable_spi:
 		mbCmdSend(rpc, 4);
 	}
 
-	static void disableSPI(int index) {}
+	static void disableSPI(int index) {
+		uint32_t rpc[1];
+ 		rpc[0] = MB_DEV_SPI | ((index & 0x0F)<<20) | 0x03;
+ 		mbCmdSend(rpc, 2);
+	}
 
 	static uint8_t transferDataSPI(int index, uint8_t* buf, size_t howMany) {
 

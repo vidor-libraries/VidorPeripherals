@@ -1,3 +1,22 @@
+/*
+  This file is part of the VidorBoot/VidorPeripherals/VidorGraphics library.
+  Copyright (c) 2018 Arduino SA. All rights reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 #ifndef __COMMON_VIDOR_H__
 #define __COMMON_VIDOR_H__
 
@@ -14,7 +33,7 @@
 #define MB_DEV_ENC      0x0A000000
 #define MB_DEV_REG      0x0B000000
 
-static char* configToString(uint32_t cod)
+static const char* configToString(uint32_t cod)
 {
 	switch(cod){
 		case MB_DEV_SF: 	return "MB_DEV_SF";
