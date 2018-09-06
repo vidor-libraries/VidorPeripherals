@@ -22,9 +22,9 @@
 #ifndef __DEFINES_VIDOR_H__
 #define __DEFINES_VIDOR_H__
 
-#define FPGA_SPI_INTERFACES_COUNT	4
+#define FPGA_SPI_INTERFACES_COUNT	6
 #define FPGA_I2C_INTERFACES_COUNT	4
-#define FPGA_UART_INTERFACES_COUNT	8
+#define FPGA_UART_INTERFACES_COUNT	9
 #define FPGA_ENCODERS_COUNT			11
 #define FPGA_NEOPIXEL_COUNT			4
 #define FPGA_CAMERA_COUNT			0
@@ -45,6 +45,9 @@
 
 // NINA signals
 #define SPIWIFI              SPIEx
+#define SerialNina           SerialEx
+#define FPGA_NINA_TX         (64 + 16)
+#define FPGA_NINA_RX         (64 + 15)
 #define FPGA_NINA_MOSI       (64 + 19)
 #define FPGA_NINA_MISO       (64 + 20)
 #define FPGA_NINA_SCK        (64 + 18)

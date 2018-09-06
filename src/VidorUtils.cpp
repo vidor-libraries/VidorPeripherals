@@ -1,5 +1,5 @@
 /*
-  This file is part of the VidorPeripherals/VidorGraphics library.
+  This file is part of the VidorBoot/VidorPeripherals/VidorGraphics library.
   Copyright (c) 2018 Arduino SA. All rights reserved.
 
   This library is free software; you can redistribute it and/or
@@ -17,22 +17,36 @@
   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _VIDOR_ENC_H
-#define _VIDOR_ENC_H
+#include "VidorMailbox.h"
 
-#include "Arduino.h"
-#include "defines.h"
+#include "VidorUtils.h"
 
-class VidorEncoder {
-  public:
-    VidorEncoder(int index);
-    void write(int32_t p);
-    int32_t read();
-  protected:
-    int32_t offset = 0;
-    int idx;
-    uint8_t devIdx;
-};
+VidorUtils::VidorUtils() {}
 
+int VidorUtils::begin(bool jumpToApp)
+{
+	// Start clocking the FPGA; this function is declared weak and can be overridden
+	// with a custom implementation (or can be left untouched if FPGA is clocked internally)
+	enableFpgaClock();
 
-#endif //_VIDOR_ENC_H
+	int ret = VidorMailbox.begin();
+
+	if (ret == 1 && jumpToApp) {
+		uint32_t evt[1];
+		evt[0] = 0 | 3;
+		VidorMailbox.sendEvent(evt, 1);
+	}
+
+	return ret;
+}
+
+void VidorUtils::end()
+{
+	VidorMailbox.end();
+	disableFpgaClock();
+}
+
+void VidorUtils::reload()
+{
+	VidorMailbox.reload();
+}
