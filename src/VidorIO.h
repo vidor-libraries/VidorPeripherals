@@ -33,6 +33,11 @@ extern "C" {
 class VidorIO {
 
 public:
+
+	VidorIO() {
+		period = -1;
+	}
+
 	static void pinMode(uint32_t pin, uint32_t mode) {
 		uint32_t rpc[256];
 		rpc[0] = MB_CMD(MB_DEV_GPIO, 0, 0, 0x01);
